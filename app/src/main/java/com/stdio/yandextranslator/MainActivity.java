@@ -3,6 +3,8 @@ package com.stdio.yandextranslator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,6 +37,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        et = findViewById(R.id.et);
+        tv = findViewById(R.id.tv);
+        setEditTextOnChangeListener();
+    }
+
+    private void setEditTextOnChangeListener() {
+        et.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                translate();
+            }
+        });
     }
 
     private void translate() {
@@ -73,11 +95,5 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-    }
-
-    public void onClick(View view) {
-        et = findViewById(R.id.et);
-        tv = findViewById(R.id.tv);
-        translate();
     }
 }
