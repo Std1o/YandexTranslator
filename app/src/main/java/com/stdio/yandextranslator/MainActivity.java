@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements OnKeyboardVisibil
     TextView tvTranslatedText, tvLanguage;
     FloatingActionButton FABClear;
     String result;
-    String currentLang = "en-ru";
+    String currentLang = "ru-uk";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,12 +125,12 @@ public class MainActivity extends AppCompatActivity implements OnKeyboardVisibil
 
 
     public void swap(View view) {
-        if (currentLang.equals("en-ru")) {
-            currentLang = "ru-en";
-            tvLanguage.setText("Russian to English");
+        if (currentLang.equals("uk-ru")) {
+            currentLang = "ru-uk";
+            tvLanguage.setText("Російська - Українська");
         } else {
-            currentLang = "en-ru";
-            tvLanguage.setText("English to Russian");
+            currentLang = "uk-ru";
+            tvLanguage.setText("Українська - Російська");
         }
         et.setText(tvTranslatedText.getText().toString());
         et.setSelection(et.getText().length());
