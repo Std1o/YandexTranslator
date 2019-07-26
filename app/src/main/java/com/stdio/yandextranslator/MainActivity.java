@@ -3,6 +3,9 @@ package com.stdio.yandextranslator;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Rect;
@@ -27,6 +30,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.pedromassango.doubleclick.DoubleClick;
+import com.pedromassango.doubleclick.DoubleClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnKeyboardVisibil
 
     EditText et;
     TextView tvTranslatedText, tvLanguage;
-    FloatingActionButton FABSwap, FABClear;
+    FloatingActionButton FABClear;
     String result;
     String currentLang = "en-ru";
 
@@ -84,10 +89,8 @@ public class MainActivity extends AppCompatActivity implements OnKeyboardVisibil
     @Override
     public void onVisibilityChanged(boolean visible) {
         if (visible) {
-            FABSwap.hide();
             FABClear.hide();
         } else {
-            FABSwap.show();
             FABClear.show();
         }
     }
@@ -96,10 +99,30 @@ public class MainActivity extends AppCompatActivity implements OnKeyboardVisibil
         et = findViewById(R.id.et);
         tvTranslatedText = findViewById(R.id.tvTranslatedText);
         tvLanguage = findViewById(R.id.tvLang);
-        FABSwap = findViewById(R.id.FABSwap);
         FABClear = findViewById(R.id.FABClear);
         setEditTextOnChangeListener();
+        setDoubleTapListener();
     }
+
+    private void setDoubleTapListener() {
+        tvTranslatedText.setOnClickListener( new DoubleClick(new DoubleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+                // Single tap here.
+            }
+
+            @Override
+            public void onDoubleClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) MainActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("", tvTranslatedText.getText().toString());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(MainActivity.this, "Перевод скопирован", Toast.LENGTH_SHORT).show();
+            }
+        }));
+    }
+
+
 
     public void swap(View view) {
         if (currentLang.equals("en-ru")) {
